@@ -1,3 +1,7 @@
+// probleme a resoudre : si le message adeja ete affiche et que ca renvoie a un autre message affiche, ca renvoie à undefined donc il faut
+//soit un compteur pour que si c'est deux foisundefined on fait un message aléatoire
+//soit ne pas proposer de reponse unique dans les réponses des ////objets  
+
 let indexLettre=0
 let currentChatterMessage
 let currentMessageIndex
@@ -31,7 +35,7 @@ let tableauMessages=[
     {   messageIndex : 1 ,
         content : "Comment ça va ?" ,
         answerRequired : true ,
-        nextMessageIfUserAnswerIsTrue : 2 ,
+        nextMessageIfUserAnswerIsTrue : 2 || 42 || 43  ,
         nextMessageIfUserAnswerIsFalse : 4 ,
         nextMessageIfUserAnswerIsNeither : Math.floor(Math.random()*10)+30
     },
@@ -566,72 +570,82 @@ let tableauMessages=[
         answerRequired : true,
         nextMessageIfUserAnswerIsTrue : 2 ,
         nextMessageIfUserAnswerIsFalse : 4 ,
-        nextMessageIfUserAnswerIsNeither : Math.floor(Math.random()*10)+30
+        nextMessageIfUserAnswerIsNeither : Math.floor(Math.random()*10)+30 || Math.floor(Math.random()*10)+40
     },
     {   messageIndex : 101,
         content : " La forme ? ",
         answerRequired : true,
         nextMessageIfUserAnswerIsTrue : 2 ,
         nextMessageIfUserAnswerIsFalse : 4 ,
-        nextMessageIfUserAnswerIsNeither : Math.floor(Math.random()*10)+30
+        nextMessageIfUserAnswerIsNeither : Math.floor(Math.random()*10)+30 || Math.floor(Math.random()*10)+40        
     },
     {   messageIndex : 102,
         content : "T'as l'air d'être en pleine forme !  ",
         answerRequired : true,
         nextMessageIfUserAnswerIsTrue : 2 ,
         nextMessageIfUserAnswerIsFalse : 4 ,
-        nextMessageIfUserAnswerIsNeither : Math.floor(Math.random()*10)+30
+        nextMessageIfUserAnswerIsNeither :  Math.floor(Math.random()*10)+30 || Math.floor(Math.random()*10)+40    
     },
     {   messageIndex : 103,
         content : "La pêche ?",
         answerRequired : true,
         nextMessageIfUserAnswerIsTrue : 2 ,
         nextMessageIfUserAnswerIsFalse : 4 ,
-        nextMessageIfUserAnswerIsNeither : Math.floor(Math.random()*10)+30
+        nextMessageIfUserAnswerIsNeither :  Math.floor(Math.random()*10)+30 || Math.floor(Math.random()*10)+40    
     },
     {   messageIndex : 104,
         content : " Tu vas bien ? ",
         answerRequired : true,
         nextMessageIfUserAnswerIsTrue : 2 ,
         nextMessageIfUserAnswerIsFalse : 4 ,
-        nextMessageIfUserAnswerIsNeither : Math.floor(Math.random()*10)+30
+        nextMessageIfUserAnswerIsNeither :  Math.floor(Math.random()*10)+30 || Math.floor(Math.random()*10)+40    
     },
     {   messageIndex : 105,
         content : "Alors, ça boome ?",
         answerRequired : true,
         nextMessageIfUserAnswerIsTrue : 2 ,
         nextMessageIfUserAnswerIsFalse : 4 ,
-        nextMessageIfUserAnswerIsNeither : Math.floor(Math.random()*10)+30
+        nextMessageIfUserAnswerIsNeither :  Math.floor(Math.random()*10)+30 || Math.floor(Math.random()*10)+40    
     },
     {   messageIndex : 106,
         content : " ça fait un bail ! ça va ? ",
         answerRequired : true,
         nextMessageIfUserAnswerIsTrue : 2 ,
         nextMessageIfUserAnswerIsFalse : 4 ,
-        nextMessageIfUserAnswerIsNeither : Math.floor(Math.random()*10)+30
+        nextMessageIfUserAnswerIsNeither :  Math.floor(Math.random()*10)+30 || Math.floor(Math.random()*10)+40    
     },
     {   messageIndex : 107,
         content : " En forme ou quoi ?",
         answerRequired : true,
         nextMessageIfUserAnswerIsTrue : 2 ,
         nextMessageIfUserAnswerIsFalse : 4 ,
-        nextMessageIfUserAnswerIsNeither : Math.floor(Math.random()*10)+30
+        nextMessageIfUserAnswerIsNeither :  Math.floor(Math.random()*10)+30 || Math.floor(Math.random()*10)+40    
     },
     {   messageIndex : 108,
         content : " Tu vas bien ? ",
         answerRequired : true,
         nextMessageIfUserAnswerIsTrue : 2 ,
         nextMessageIfUserAnswerIsFalse : 4 ,
-        nextMessageIfUserAnswerIsNeither : Math.floor(Math.random()*10)+30
+        nextMessageIfUserAnswerIsNeither :  Math.floor(Math.random()*10)+30 || Math.floor(Math.random()*10)+40    
     },
     {   messageIndex : 109,
         content : "Toujours en pleine forme comme d'hab ?",
         answerRequired : true,
         nextMessageIfUserAnswerIsTrue : 2 ,
         nextMessageIfUserAnswerIsFalse : 4 ,
-        nextMessageIfUserAnswerIsNeither : Math.floor(Math.random()*10)+30
+        nextMessageIfUserAnswerIsNeither :  Math.floor(Math.random()*10)+30 || Math.floor(Math.random()*10)+40    
+    },
+    {   messageIndex : 110,
+        content : "Que veux-tu que je fasse ?",
+        answerRequired : true,
+        choices : ["choice1","choice2","choice3"],
+        choice1 : "Chanter" ,
+        choice2 : "Raconter une blague" ,
+        choice3 :  "Autre chose ! ",
+        nextMessageIfUserChoiceIs1 : Math.floor(Math.random()*10)+20 ,
+        nextMessageIfUserChoiceIs2 : Math.floor(Math.random()*10)+10 ,
+        nextMessageIfUserChoiceIs3 :  Math.floor(Math.random()*10)+30 
     }
-
 ]
 
 let tableauMessagesModified=[...tableauMessages]
@@ -705,7 +719,10 @@ function validateUserMessage(){
             else {
             currentMessageIndex=message.nextMessageIfUserAnswerIsNeither
             }
-            if (tableauMessagesModified[currentMessageIndex]==undefined){()=>chooseCurrentMessageIndex(lastChatterMessage)}    
+            if (tableauMessagesModified[currentMessageIndex]==undefined){
+                console.log("message déjà choisi" ); 
+                ()=>chooseCurrentMessageIndex(lastChatterMessage)
+            }    
             else {lastChatterMessage=currentChatterMessage ; console.log(lastChatterMessage)}
         }
         chooseCurrentMessageIndex(currentChatterMessage)
@@ -719,16 +736,34 @@ function writeChatterMessage(currentMessageIndex){
     let paragraphe=document.createElement("p")
     //fonctionnalité pour question avec réponses à cliquer
     // esayyer de faire une transition opacité pour l'apaprition des options de réponse
-    if(currentMessageIndex>110){
-        paragraphe.setAttribute("class" ,"chatter-multiple-choices-message")
-    }
+    function checkMessageIsSimpleOrMultipleChoice(currentChatterMessage){
+        if(currentMessageIndex>=110){
+            let choices=currentChatterMessage.choices
+            paragraphe.setAttribute("class" ,"chatter-multiple-choices-message message")
+            let r = document.querySelector(':root');
+            let rs = getComputedStyle(r);
+            let delayValue=rs.getPropertyValue('--delayValue')
+            for (let choice of choices ) {
+                
+                function displayOption(){ 
+                    
+                    delayValue=parseInt(delayValue) 
+                    delayValue+=1
+                    console.log(delayValue);
+                    r.style.setProperty('--delayValue', delayValue);
+                let span=document.createElement("span")
+                span.setAttribute("class" ,"multipleChoicesOptions")
+                let texte=document.createTextNode(currentChatterMessage[choice])
+                span.appendChild(texte)
+                paragraphe.appendChild(span)
+            }
+            displayOption()
+            }
+         messageAnchor.appendChild(paragraphe) 
+        }
     else {
-        paragraphe.setAttribute("class" ,"chatter-message")
-    }
-    currentChatterMessage=tableauMessagesModified[currentMessageIndex]
-    // lastChatterMessage=currentChatterMessage ;
-    
-    function typeWriter(currentChatterMessage) {
+        paragraphe.setAttribute("class" ,"chatter-message message")
+        function typeWriter(currentChatterMessage) {
         
         //créer un paragraphe avec le texte progressif dedans
         let texte=document.createTextNode("")
@@ -758,8 +793,15 @@ function writeChatterMessage(currentMessageIndex){
                 .then(()=>checkAnswerRequired())
            //     .catch(error=> console.log(error))             
         }
-    }  
+        }  
+        let typeWriter1= setInterval(()=>typeWriter(currentChatterMessage), 50); //lance l'affichage    
+    }
+
+    }
+    currentChatterMessage=tableauMessagesModified[currentMessageIndex]
+    checkMessageIsSimpleOrMultipleChoice(currentChatterMessage)
     
+
     const checkAnswerRequired = function () {
         let writeMessagePromise = new Promise ((resolve,reject)=>{
             if (currentChatterMessage.answerRequired==false){
@@ -779,32 +821,18 @@ function writeChatterMessage(currentMessageIndex){
             }
                 
         }
-
-
-
-            // ? resolve(currentMessageIndex=currentChatterMessage.nextMessageIndex)  
-            // : reject("checkAnswerRequired attente reponse user")
-            // if (currentChatterMessage==undefined) {
-            //     currentChatterMessage=
-            //     tableauMessagesModified[Math.floor(Math.random()*10) + 40 || Math.floor(Math.random()*10) + 30 ]
-            // }
         )
         writeMessagePromise
-        // .then((value)=>console.log(value))     
-        // .then(()=>{ currentMessageIndex+=1 ; console.log(currentMessageIndex) ; return currentMessageIndex})
         .then((value)=>writeChatterMessage(value) , (error)=>{console.log(error)})   
-        // .then()     
-        
     }
 
-    let typeWriter1= setInterval(()=>typeWriter(currentChatterMessage), 50); //lance l'affichage    
     tableauMessagesModified[currentMessageIndex]=undefined
     
 }
 
-writeChatterMessage(Math.floor(Math.random()*10)+90)
+// writeChatterMessage(Math.floor(Math.random()*10)+90)
 
-
+writeChatterMessage(110)
 
 
 
