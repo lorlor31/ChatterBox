@@ -36,14 +36,14 @@ h1{
 .message {
     border-radius: 5px ;
     /* background-color: rgb(15, 82, 82); */
-    align-self: flex-start;
     max-width: 100%;
     margin: 4px;
-    margin-left: 5%;
     padding: 5px;
 }
 .chatter-message{
     background-color: rgb(15, 82, 82);
+    align-self: flex-start;
+    margin-left: 5%;
 }
 
 .chatter-multiple-choices-message{
@@ -51,10 +51,15 @@ h1{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    background-color: rgb(239, 0, 247);  
+    align-self: center;
+    background-color: var(--delayValue);
+    width: 80%;
+    height: 1em;
+    
 }
 :root {
-    --delayValue : 1 ;
+    --delayValue : 0s ;
+
   }
 
 
@@ -64,7 +69,8 @@ h1{
     padding: 5px;
     color: rgb(254, 253, 253);
     border-radius: 0px 5px  0px 5px ;
-    animation: fadeIn  var(--delayValue);
+    /* animation: fadeIn 1s; */
+    animation: fadeIn var(--delayValue)
 }
 .validated-user-message{
     background-color: rgb(131, 133, 9);

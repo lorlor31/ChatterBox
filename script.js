@@ -740,26 +740,34 @@ function writeChatterMessage(currentMessageIndex){
         if(currentMessageIndex>=110){
             let choices=currentChatterMessage.choices
             paragraphe.setAttribute("class" ,"chatter-multiple-choices-message message")
-            let r = document.querySelector(':root');
-            let rs = getComputedStyle(r);
-            let delayValue=rs.getPropertyValue('--delayValue')
+            messageAnchor.appendChild(paragraphe) 
+            // let r = document.querySelector(':root');
+            // let rs = getComputedStyle(r);
+            // let delayValue=rs.getPropertyValue('--delayValue')
+            let delayValue=1000
             for (let choice of choices ) {
-                
                 function displayOption(){ 
-                    
-                    delayValue=parseInt(delayValue) 
-                    delayValue+=1
-                    console.log(delayValue);
-                    r.style.setProperty('--delayValue', delayValue);
+                // delayValue=parseInt(delayValue) 
+                // delayValue+=1
+                // delayValue+="s"
+                // delayValue=choice.replace("choice","")
+                // console.log(delayValue);
+                // r.style.setProperty('--delayValue', delayValue);
                 let span=document.createElement("span")
                 span.setAttribute("class" ,"multipleChoicesOptions")
                 let texte=document.createTextNode(currentChatterMessage[choice])
                 span.appendChild(texte)
                 paragraphe.appendChild(span)
+                // messageAnchor.appendChild(paragraphe) 
+                }
+                function delayedDisplayOption() {
+                    setTimeout(()=>displayOption(),delayValue)    
+                }
+                delayedDisplayOption()
+                delayValue+=1000
+            
             }
-            displayOption()
-            }
-         messageAnchor.appendChild(paragraphe) 
+         
         }
     else {
         paragraphe.setAttribute("class" ,"chatter-message message")
